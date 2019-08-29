@@ -1,0 +1,24 @@
+1.绝对定位absolute和固定定位fixed时，同时设置 left 和 right 等同于隐式地设置宽度
+2.display:table 实现多列等高布局
+3.padding的百分比是相对于其包含块的宽度，而不是高度
+4.隐藏文字内容的两种办法:  text-indent:-2000px   font-size:0px
+5.可以使用outline来描边，不占地方，它甚至可以在里面  outline:10px solid #ccc;outline-offset:-10px；
+  使用outline-offset实现加号
+      div{
+         width: 200px;
+         height: 200px;
+         outline: 20px solid #000;
+         outline-offset: 10px;
+      }
+6.动画添加延迟时间可以使步调不一致
+7.background-attachment指定背景如何附着在容器上，注意其属性值local和fixed的使用
+8.css动画鼠标放上去暂停   animation-play-state:paused
+9.图片在指定尺寸后，可以设置object-fit为contain或cover保持比例
+10.按钮禁用时，设置鼠标状态  button:disabled{cursor:not-allowed}
+11.宽度为fill-available，可以使inline-block像block那样填充整个空间
+12.大屏块边框背景
+    border-image-source: url(/static/img-templet/border-93-63f1aa8a1c6516ca.png);
+    border-image-slice: 35 fill;
+    border-width: 35px;
+    border-style: solid;
+    background-clip: padding-box;

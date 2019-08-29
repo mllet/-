@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原型链温习</title>
+</head>
+<body>
+<p>每个函数都有一个属性prototype,prototype的属性值是一个对象（属性的集合），默认的只有一个叫做constructor的属性，指向这个函数本身<br>function Person() {this.name="aaa";}<br>Person.prototype.constructor-------function Person()
+    {this.name="aaa";}</p>
+<p>每个对象都有一个隐藏的属性“__proto__”，引用了创建这个对象的函数的prototype <br>var fo=new Person();<br>fo.__proto__===Person.prototype</p>
+<h4>call或者apply实现继承【参数不一样，apply两个参数（this和一个数组），call接受多个参数】</h4>
+<h3>多重继承（继承：每一个构造函数都有一个prototype属性，指向另一个对象【属性的集合】。这个对象的所有属性和方法，都会被构造函数的实例继承）</h3>
+<img src="多重继承.png" style="width: 450px">
+<script>
+    function Person() {
+        this.name = "zyt"
+    }
+
+    var fo = new Person();
+    console.log(Boolean(fo.__proto__ === Person.prototype));
+    console.log(fo.__proto__);
+
+    //空对象作为中介实现继承
+    function extend(Child, Parent) {
+        var F = function () {
+        };
+        F.prototype = Parent.prototype;
+        Child.prototype = new F();
+        Child.prototype.constructor = Child;
+        Child.uber = Parent.prototype;
+    }
+
+    function Animal() {
+        // this.add = function () {
+        //     return 3;
+        //};//自有属性，函数供实例只能访问prototype属性；
+    }
+
+    Animal.prototype.add = function () {
+        return 3;
+    };
+    Animal.prototype.species = "动物";
+
+    function Cat(name, color) {
+        this.name = name;
+        this.color = color;
+    }
+
+    extend(Cat, Animal);
+    var cat1 = new Cat("大毛", "黄色");
+
+    //对象继承
+    function object(o) {
+        var F = function () {
+        };
+        F.prototype = o;
+        return new F();
+    }
+
+    var Chinese = {
+        nation: '中国'
+    };
+    var Doctor = object(Chinese);
+
+    //深拷贝实现对象的继承
+    function deepCopy(p, c) {
+        var c = c || {};
+        for (var i in p) {
+            if (typeof p[i] === 'object') {
+                c[i] = (p[i].constructor === Array) ? [] : {};
+                deepCopy(p[i], c[i]);
+            } else {
+                c[i] = p[i];
+            }
+        }
+        return c;
+    }
+    Chinesen={
+        nation: '中国',
+        method_test:function () {
+            return 4;
+        },
+        obj:['6',"af"]
+    };
+　　var Doctor = deepCopy(Chinesen);
+
+</script>
+</body>
+</html>

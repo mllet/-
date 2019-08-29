@@ -1,0 +1,87 @@
+1.数字与字符串转换;
+    常用方法    value.toString  ""+value   String(value)
+        注：toString有一个可选参数指定转换基数----不指定则默认为10（十进制）
+        value.toFixed(0)--------参数表示数字的小数点位数
+  字符串转数字
+    常用方法    value.parseInt  +value   Number(value)
+        注：parseInt(),把字符串转换为整形数字，除去必选参数（待转换字符串）还可以接受一个可选参数指定转化基数
+  精确到指定位数的小数
+    const round=(n,decimals=0)=>Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
+    console.log(round(1.345,2));//1.35
+    console.log(round(1.345,1));//1.3
+
+  jquery中val()方法【$(selector).val()】 返回的是一个字符串
+
+2.去掉字符串两端空白字符
+    jquery方法-----$.trim(str)
+    原生js方法-----str.trim()
+
+3.表单input输入字段格式限制，用pattern属性---- pattern="1[0-9]{10}"【1开头的11位数字】
+    注：此验证限于form表单提交方式，体验效果。。。。
+
+
+4.分割字符串方法
+--返回指定位置字符串方法
+    substr(start,length)--start位置开始，截取length长度的字符串。
+    substring(start,end)--start到end之间的字符串，包括start位置的字符但是不包括end位置的字符
+--判断字符串中是否有某个子字符串
+    indexOf('t')----有则返回t在字符串中首次出现位置（从左向右，从右向左lastIndexOf()），没有则返回-1
+--将一个字符串分割为多个子字符串，作为字符串数组返回
+    split(" ")
+--去掉字符串后四位
+    String(data.substring(0,String(data).length-4)
+
+5.apply的巧妙用法---apply会将一个数组转换为一个一个参数的方式传递给方法
+    Math.max不支持Math.max([param1,param2])也就是数组，var max=Math.max.apply(null,array)
+    push方法没有提供push一个数组，但是它提供了push(param1,param2...paramN)，同样也可以用apply来转换一下这个数组
+    ---也可以用...运算符       push(...[a,b,c]);
+
+6.数组 对象取值操作
+    ----for in   ----
+    var arr = [{name: 'aaa', pri: "bbb"}, {pri: 'ccc'}];
+    for (let a in arr) {
+      for (let b in arr[a]) {
+        console.log(arr[a][b]);//获取属性值只能用arr[a][b],不能用arr[a].b
+                               //因为b是变量，直接用.运算符会直接在对象里面找属性为b的属性值，结果undefined
+      }
+    }
+    ----forEach
+    var data=[{id:12,name:"a"},{id:13,name:"b"}];data.forEach(function(value,index){console.log(value.id)})
+
+7.  匹配时间小时数 与  匹配时间分钟数
+    function check_input_hours(e){
+          var patt = /0[0-9]|1[0-9]|2[0-3]/;
+          var input_str=$(e).val();
+          if(input_str.length>2||(input_str.length===2&&!patt.test(input_str))){
+              $(e).parent('.time-wraprer').parent('.am-form-group').siblings('.error_text').css("display","block");
+          }else{
+              $(e).parent('.time-wraprer').parent('.am-form-group').siblings('.error_text').css("display","none");
+          }
+      }
+      function check_input_min(e){
+          var patt = /[0-5][0-9]/;
+          var input_str=$(e).val();
+          if(input_str.length>2||(input_str.length===2&&!patt.test(input_str))){
+              $(e).parent('.time-wraprer').parent('.am-form-group').siblings('.error_text').css("display","block");
+          }else{
+              $(e).parent('.time-wraprer').parent('.am-form-group').siblings('.error_text').css("display","none");
+          }
+      }
+8.图片加载失败处理。。。
+    判断是否有url;
+    img绑定error事件
+    $(".vc_img").one('error',function () {
+        $(this).attr('src', '/static/xiaoxiao/saas/img/biaozhi1.png');
+    });
+
+正则：匹配任意字符
+
+
+写 React / Vue 项目时为什么要在列表组件中写 key，其作用是什么？
+    主要是为了提升diff【同级比较】的效率。自己想一下自己要实现前后列表的diff，如果对列表的每一项增加一个key，即唯一索引，那就可以很清楚的知道两个列表谁少了谁没变。而如果不加key的话，就只能一个个对比了
+
+
+
+注意:
+1.显示初始化变量，当typeof操作符返回‘undefined’值时，就知道被检测的变量还没有被声明，而不是尚未初始化
+2.使用 for-in 循环之前，先检测确认该对象的值不是 null 或 undefined
