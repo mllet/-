@@ -1,0 +1,8 @@
+function bindThis(f, oTarget) {
+     return function(){
+        return f.apply(oTarget,arguments);
+    }
+}
+bindThis(function(a,b){return this.test+a+b},{test:1})(2,6)
+
+JavaScript 的 this 原理----阮一峰）（this指的是函数运行时所在的环境）

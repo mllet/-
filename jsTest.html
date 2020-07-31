@@ -1,0 +1,210 @@
+0<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="height: 60vh;width: 100%;background: #ccc"></div>
+<script>
+    /* 30-seconds-of-code */
+    /*
+
+    JavaScript Array filter() 方法
+
+    语法：array.filter(function(currentValue,index,arr), thisValue)
+
+    func必须。函数，数组中的每个元素都会执行这个函数
+    currentValue 	必须。当前元素的值
+    index	可选。当前元素的索引值
+    arr	可选。当前元素属于的数组对象
+    thisValue 传递给函数，用作 "this" 的值。
+
+    */
+    /*数组与对象的结构赋值;foo是匹配的模式，baz才是变量。真正被赋值的是变量baz，而不是模式foo。*/
+    // let { foo: baz} = { foo: 'aaa', name: 'bbb' };
+    // console.log(baz) ;// aaa
+    // console.log(foo) ;// error: foo is not defined
+    let {foo} = {
+        foo: ['aaa',
+            {price: 32}],
+        name: 'bbb'
+    };
+    console.log(foo[1]) ;
+    /*数组*/
+    //得到一个元素中不包含3的数组
+    let arr = ['10', '12', '23', '44', '42'];
+    let newArr = arr.filter(item => item.indexOf('3') < 0);  //item.indexOf('3')元素中有3返回第一次出现3的索引，没有则返回-1
+    console.log(newArr);
+
+    //连接两个数组
+    const ArrayConcat = (arr, ...args) => [].concat(arr, ...args);
+    console.log(ArrayConcat([1], [1, 2, 3, [4, 5]]));//[1,1, 2, 3, [4,5]]
+
+    //两个数组中非公有的值,返回一个新数组
+    const difference = (a, b) => {
+        const s = new Set(b);
+        return a.filter(x => !s.has(x)) // Set 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。
+    };
+    console.log(difference([1, 2, 3, 2, 4], [1, 3, 3]));
+
+    //判断数组或字符串中是否存在指定元素，没有返回false,有返回true
+    const includes = (collection, val, fromIndex = 0) => collection.slice(fromIndex).indexOf(val) !== -1;
+    console.log("sfg" + includes("30-seconds-of-code", "code"));
+    console.log(includes([[1, 5], 2, 3, 4], 5, 2));//只能判断数组中是否有某元素，由于数组是引用类型，所以不能判断该数组中是否存在某数组
+
+
+    const remove = (arr, func) =>
+    Array.isArray(arr) ? arr.filter(func).reduce((acc, val) => {
+        arr.splice(arr.indexOf(val), 1);
+    return acc.concat(val);
+    }, [])
+    : [];
+
+    //Array.isArray(arr) ? arr.filter(func) : [];
+    remove([1, 2, 3, 4], n => n % 2 === 0);
+
+
+    //随机元素
+    const sample = arr => arr[Math.floor(Math.random() * arr.length)];
+    console.log(sample(['a', 'b', 'g', 'k']));
+
+    //数组与Set对象之间的转换可以实现数组的去重
+    //Array union
+    const union = (a, b) => Array.from(new Set([...a, ...b]));//数组与Set对象之间的转换可以实现数组的去重（数组可重复，Set不可重复）
+    union([1, 2, 3], [4, 3, 2]); //[1,2,3,4]
+
+    //数组排除所有给定值
+
+    const without = (arr, ...args) => arr.filter(
+        (v => args.indexOf(v) === -1)
+    );
+    console.log(without([2, 1, 2, 3], 1, 2));
+
+    //数组所有数值的平均数
+    const average = arr => arr.reduce((acc, val) => acc + val, 0) / arr.length;
+    // average([1,2,3]) -> 2
+
+    function arrcount(acc,val) {
+        return acc+val;
+    }
+    console.log(arrcount([1,2,3])+'aa')
+
+    //计算一个数在数组中长出现的次数
+    const countOccurrences = (arr, value) => arr.reduce((a, v) => v === value ? a + 1 : a + 0, 0);
+    countOccurrences([1, 1, 2, 1, 2, 3], 1);//3
+
+
+    const deepFlatten = arr => [].concat(...arr.map(v => Array.isArray(v) ? deepFlatten(v) : v));
+    // deepFlatten([1,[2],[[3],4],5]) -> [1,2,3,4,5]
+
+    const dropElements = (arr, func) => {
+        while (arr.length > 0 && !func(arr[0])) arr.shift();
+        return arr;
+    };
+
+    // dropElements([1, 2, 3, 4], n => n >= 3) -> [3,4]
+
+
+    function dropEle(n) {
+        return n >= 3;
+    }
+
+    const drope = (arr, func) => {
+        while (arr.length > 0 && !func(arr[0])) arr.shift();
+        return arr
+    };
+    console.log(drope([1, 2, 3, 4], dropEle));
+
+    let run = function () {
+        let _promise = new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                let rand = Math.random();
+                if (rand < 0.5) {
+                    resolve("resolve" + rand);
+                } else {
+                    reject("reject" + rand);
+                }
+            }, 2000);
+        });
+        return _promise;
+    };
+    run().then(function (data) {
+        console.log(data);
+    });
+
+    run().then(function (data) {
+        //处理resolve的代码
+        console.log("Promise被置为resolve", data);
+    }, function (data) {
+        //处理reject的代码
+        console.log("程序被置为了reject", data);
+    });
+    console.log('Math.trunc:' + Math.trunc(NaN));
+    console.log(2 ** 3);
+
+    function Point(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
+    }
+
+    const p = new Point('jhjh', 3);
+    console.log(p);
+
+    function Answer() {
+        return 42;
+    }
+
+    console.log(Answer()); // ✅ 42
+    console.log(new Answer()); // 😳 Answer {}
+
+    //a元一瓶酒  b个瓶盖一瓶酒  c个空瓶一瓶酒  d元钱
+    function jsTest(a, b, c, d) {
+        var count = 0, k = 0, m = 0, n = 0;//总共可以买的酒；当前可兑换的酒；剩余瓶盖，剩余空瓶
+        count = parseInt(d / a);
+        k = parseInt(d / a);
+        duihuan(b, c, count, k, m, n);
+
+        function duihuan(b, c, count, k, m, n) {
+            while ((k + m >= b) || (k + n >= c)) {
+                var e = k;
+                k = parseInt((e + m) / b) + parseInt(((e + n) / c));
+                count += k;
+                m = (e + m) % b;
+                n = (e + n) % c;
+            }
+            m = k + m;
+            n = k + n;
+            console.log("可买酒" + count + ";剩余瓶盖：" + m + "剩余空瓶：" + n)
+        }
+    }
+    // jsTest(5, 5, 3, 79);
+
+    const round=(n,decimals=0)=>Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
+    console.log(round(1.345,2));//1.35
+    console.log(round(1.345,1));//1.3
+
+
+    function Foo() {
+        getName = function () { alert (1); };
+        return this;
+    }
+    Foo.getName = function () { alert (2);};
+    Foo.prototype.getName = function () { alert (3);};
+    var getName = function () { alert (4);};
+    function getName() { alert (5);}
+
+    //请写出以下输出结果：
+    Foo.getName();
+    getName();
+    Foo().getName();
+    getName();
+    new Foo.getName();
+    new Foo().getName();
+    new new Foo().getName();
+
+
+</script>
+
+</body>
+</html>
